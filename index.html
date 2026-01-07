@@ -45,6 +45,17 @@
         width: 100%;
         margin-top: 20px;
     }
+
+    .mystery {
+        opacity: 0;
+        animation: fadeIn 4s forwards;
+        font-size: 1.2em;
+        line-height: 1.6em;
+    }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
 </style>
 </head>
 <body>
@@ -61,46 +72,16 @@
 let step = 0;
 
 const puzzles = [
-    {
-        q: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?",
-        a: "echo"
-    },
-    {
-        q: "What number comes next in the sequence?\n1, 11, 21, 1211, 111221, ?",
-        a: "312211"
-    },
-    {
-        q: "If you take me out, you leave me behind. What am I?",
-        a: "footsteps"
-    },
-    {
-        q: "Decrypt this (Caesar Cipher, shift 3):\nKHOOR",
-        a: "hello"
-    },
-    {
-        q: "A clock shows the time as 3:15. What is the angle between the hour and minute hands (in degrees)?",
-        a: "7.5"
-    },
-    {
-        q: "What 5-letter word becomes shorter when you add two letters to it?",
-        a: "short"
-    },
-    {
-        q: "Binary to decimal:\n101101",
-        a: "45"
-    },
-    {
-        q: "You see a boat filled with people, yet there isn’t a single person on board. Why?",
-        a: "all married"
-    },
-    {
-        q: "What is the only number that is spelled with the same number of letters as its value?",
-        a: "four"
-    },
-    {
-        q: "Final puzzle:\nI am the beginning of eternity, the end of time and space, the beginning of every end, and the end of every race.",
-        a: "e"
-    }
+    { q: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?", a: "echo" },
+    { q: "What number comes next?\n1, 11, 21, 1211, 111221, ?", a: "312211" },
+    { q: "If you take me out, you leave me behind. What am I?", a: "footsteps" },
+    { q: "Decrypt (Caesar shift 3): KHOOR", a: "hello" },
+    { q: "Angle between clock hands at 3:15 (degrees)", a: "7.5" },
+    { q: "What 5-letter word becomes shorter when you add two letters?", a: "short" },
+    { q: "Binary to decimal: 101101", a: "45" },
+    { q: "Boat full of people, yet no one onboard. Why?", a: "all married" },
+    { q: "Only number spelled with same number of letters as its value", a: "four" },
+    { q: "Beginning of eternity, end of time and space, start of every end", a: "e" }
 ];
 
 function loadPuzzle() {
@@ -111,14 +92,9 @@ function loadPuzzle() {
 
 function check() {
     const input = document.getElementById("answer").value.trim().toLowerCase();
-
     if (input === puzzles[step].a) {
         step++;
-        if (step === puzzles.length) {
-            rickRoll();
-        } else {
-            loadPuzzle();
-        }
+        step === puzzles.length ? rickRoll() : loadPuzzle();
     } else {
         alert("Wrong. Think harder.");
     }
@@ -128,10 +104,23 @@ function rickRoll() {
     document.getElementById("container").innerHTML = `
         <h2>You solved everything.</h2>
         <p>There is only one reward.</p>
-        <video controls autoplay>
+        <video id="finalVideo" autoplay>
             <source src="video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
         </video>
+    `;
+
+    const video = document.getElementById("finalVideo");
+    video.addEventListener("ended", showMystery);
+}
+
+function showMystery() {
+    document.getElementById("container").innerHTML = `
+        <div class="mystery">
+            <p>YOU WERE NOT SUPPOSED TO REACH THIS.</p>
+            <p>THE QUESTIONS NEVER END.</p>
+            <p>LOOK CLOSER. LISTEN CAREFULLY.</p>
+            <p>THE ANSWER IS ALREADY INSIDE YOU.</p>
+        </div>
     `;
 }
 
