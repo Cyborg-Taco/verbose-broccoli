@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Impossible Puzzle Trial</title>
+<title>hfrgt</title>
 
 <style>
 body {
@@ -78,18 +78,26 @@ video {
 let step = 0;
 
 const puzzles = [
-    { q: "WORDLE MINI-GAME\nGuess the 5-letter word. Hint: opposite of long", a: "short" },
+    { q: "WORDLE MINI-GAME\nGuess the 5-letter word.\nHint: opposite of long", a: "short" },
+
     { q: "LOGIC GAME\nType the number of letters in this sentence.", a: "43" },
-    { q: "MEMORY\nRemember this: X7Q9\n(Type it)", a: "x7q9" },
+
+    { q: "MEMORY GAME\nRemember this: X7Q9\n(Type it exactly)", a: "x7q9" },
+
     { q: "MATH GAME\n(6 × 7) + (8 ÷ 4)", a: "44" },
-    { q: "PATTERN\n2, 3, 5, 9, 17, ?", a: "33" },
-    { q: "BINARY\nConvert 110010", a: "50" },
-    { q: "TRICK\nType nothing and submit.", a: "" },
+
+    { q: "PATTERN GAME\n2, 3, 5, 9, 17, ?", a: "33" },
+
+    { q: "BINARY GAME\nConvert binary 110010 to decimal.", a: "50" },
+
+    { q: "TRICK GAME\nType nothing and press submit.", a: "" },
+
     { q: "RIDDLE\nWhat disappears the moment you say its name?", a: "silence" },
+
+    { q: "LOGIC\nWhat is the next letter?\nA, C, F, J, O, ?", a: "u" },
+
     { q: "FINAL\nType the first letter of everything.", a: "t" }
 ];
-
-let timerStart = null;
 
 function loadPuzzle() {
     document.getElementById("container").innerHTML = `
@@ -103,23 +111,7 @@ function loadPuzzle() {
 
 function check() {
     const input = document.getElementById("answer").value.trim().toLowerCase();
-    const puzzle = puzzles[step];
-
-    if (puzzle.timed) {
-        if (!timerStart) {
-            timerStart = Date.now();
-            alert("Click submit again after 2 seconds.");
-            return;
-        }
-        const diff = (Date.now() - timerStart) / 1000;
-        timerStart = null;
-        if (diff < 1.8 || diff > 2.2) {
-            alert("Wrong timing.");
-            return;
-        }
-    }
-
-    if (input === puzzle.a) {
+    if (input === puzzles[step].a) {
         step++;
         step === puzzles.length ? playVideo() : loadPuzzle();
     } else {
@@ -138,7 +130,7 @@ function playVideo() {
     const vid = document.getElementById("vid");
     vid.onended = showMystery;
 
-    // fallback in case ended doesn't fire
+    // fallback safety
     setTimeout(showMystery, 25000);
 }
 
