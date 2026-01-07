@@ -1,40 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>00:00:00</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Impossible Puzzle Trial</title>
+<style>
+    body {
+        background: #0d0d0d;
+        color: #00ffcc;
+        font-family: monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    #container {
+        width: 600px;
+        text-align: center;
+        border: 2px solid #00ffcc;
+        padding: 30px;
+    }
+
+    input {
+        width: 80%;
+        padding: 10px;
+        margin-top: 15px;
+        background: black;
+        color: #00ffcc;
+        border: 1px solid #00ffcc;
+        font-family: monospace;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: #00ffcc;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    video {
+        width: 100%;
+        margin-top: 20px;
+    }
+</style>
 </head>
 <body>
 
-<!--
-You weren't invited.
-You noticed.
-That's enough.
-
-Start with what you can measure.
--->
-
-<div class="container">
-    <h1>ARCHIVE STATUS: INCOMPLETE</h1>
-
-    <p>
-        Some material has degraded.<br>
-        Some records were never meant to persist.
-    </p>
-
-    <p class="warning">
-        If you are here accidentally, leave.
-    </p>
-
-    <p class="hidden">
-        THE ARCHIVE IS NOT CLOSED
-    </p>
-
-    <p class="footer">
-        Observation changes the archive.
-    </p>
+<div id="container">
+    <h2 id="title">Puzzle 1</h2>
+    <p id="puzzle"></p>
+    <input id="answer" autocomplete="off">
+    <br>
+    <button onclick="check()">Submit</button>
 </div>
+
+<script>
+let step = 0;
+
+const puzzles = [
+    {
+        q: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?",
+        a: "echo"
+    },
+    {
+        q: "What number comes next in the sequence?\n1, 11, 21, 1211, 111221, ?",
+        a: "312211"
+    },
+    {
+        q: "If you take me out, you leave me behind. What am I?",
+        a: "footsteps"
+    },
+    {
+        q: "Decrypt this (Caesar Cipher, shift 3):\nKHOOR",
+        a: "hello"
+    },
+    {
+        q: "A clock shows the time as 3:15. What is the angle between the hour and minute hands (in degrees)?",
+        a: "7.5"
+    },
+    {
+        q: "What 5-letter word becomes shorter when you add two letters to it?",
+        a: "short"
+    },
+    {
+        q: "Binary to decimal:\n101101",
+        a: "45"
+    },
+    {
+        q: "You see a boat filled with people, yet there isn’t a single person on board. Why?",
+        a: "all married"
+    },
+    {
+        q: "What is the only number that is spelled with the same number of letters as its value?",
+        a: "four"
+    },
+    {
+        q: "Final puzzle:\nI am the beginning of eternity, the end of time and space, the beginning of every end, and the end of every race.",
+        a: "e"
+    }
+];
+
+function loadPuzzle() {
+    document.getElementById("title").innerText = `Puzzle ${step + 1}`;
+    document.getElementById("puzzle").innerText = puzzles[step].q;
+    document.getElementById("answer").value = "";
+}
+
+function check() {
+    const input = document.getElementById("answer").value.trim().toLowerCase();
+
+    if (input === puzzles[step].a) {
+        step++;
+        if (step === puzzles.length) {
+            rickRoll();
+        } else {
+            loadPuzzle();
+        }
+    } else {
+        alert("Wrong. Think harder.");
+    }
+}
+
+function rickRoll() {
+    document.getElementById("container").innerHTML = `
+        <h2>You solved everything.</h2>
+        <p>There is only one reward.</p>
+        <video controls autoplay>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    `;
+}
+
+loadPuzzle();
+</script>
 
 </body>
 </html>
