@@ -2,155 +2,124 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>hfrgt</title>
-
+<title>Impossible Puzzle Trial</title>
 <style>
-body {
-    background: black;
-    color: #00ffcc;
-    font-family: monospace;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+    body {
+        background: #0d0d0d;
+        color: #00ffcc;
+        font-family: monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
 
-#container {
-    width: 650px;
-    border: 2px solid #00ffcc;
-    padding: 30px;
-    text-align: center;
-}
+    #container {
+        width: 600px;
+        text-align: center;
+        border: 2px solid #00ffcc;
+        padding: 30px;
+    }
 
-input {
-    width: 80%;
-    padding: 10px;
-    background: black;
-    color: #00ffcc;
-    border: 1px solid #00ffcc;
-    margin-top: 15px;
-}
+    input {
+        width: 80%;
+        padding: 10px;
+        margin-top: 15px;
+        background: black;
+        color: #00ffcc;
+        border: 1px solid #00ffcc;
+        font-family: monospace;
+    }
 
-button {
-    margin-top: 15px;
-    padding: 10px 20px;
-    background: #00ffcc;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
+    button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: #00ffcc;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+    }
 
-video {
-    width: 100%;
-}
+    video {
+        width: 100%;
+        margin-top: 20px;
+    }
 
-.mystery {
-    opacity: 0;
-    animation: fadeIn 3s forwards;
-    cursor: pointer;
-}
+    .mystery {
+        opacity: 0;
+        animation: fadeIn 4s forwards;
+        font-size: 1.2em;
+        line-height: 1.6em;
+    }
 
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
-
-.secret {
-    color: red;
-    animation: glitch 0.15s infinite;
-}
-
-@keyframes glitch {
-    0% { transform: translate(0); }
-    25% { transform: translate(-2px, 1px); }
-    50% { transform: translate(2px, -1px); }
-    75% { transform: translate(-1px, -2px); }
-    100% { transform: translate(0); }
-}
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
 </style>
 </head>
-
 <body>
 
-<div id="container"></div>
+<div id="container">
+    <h2 id="title">Puzzle 1</h2>
+    <p id="puzzle"></p>
+    <input id="answer" autocomplete="off">
+    <br>
+    <button onclick="check()">Submit</button>
+</div>
 
 <script>
 let step = 0;
 
 const puzzles = [
-    { q: "WORDLE MINI-GAME\nGuess the 5-letter word.\nHint: opposite of long", a: "short" },
-
-    { q: "LOGIC GAME\nType the number of letters in this sentence.", a: "43" },
-
-    { q: "MEMORY GAME\nRemember this: X7Q9\n(Type it exactly)", a: "x7q9" },
-
-    { q: "MATH GAME\n(6 × 7) + (8 ÷ 4)", a: "44" },
-
-    { q: "PATTERN GAME\n2, 3, 5, 9, 17, ?", a: "33" },
-
-    { q: "BINARY GAME\nConvert binary 110010 to decimal.", a: "50" },
-
-    { q: "TRICK GAME\nType nothing and press submit.", a: "" },
-
-    { q: "RIDDLE\nWhat disappears the moment you say its name?", a: "silence" },
-
-    { q: "LOGIC\nWhat is the next letter?\nA, C, F, J, O, ?", a: "u" },
-
-    { q: "FINAL\nType the first letter of everything.", a: "t" }
+    { q: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?", a: "echo" },
+    { q: "What number comes next?\n1, 11, 21, 1211, 111221, ?", a: "312211" },
+    { q: "If you take me out, you leave me behind. What am I?", a: "footsteps" },
+    { q: "Decrypt (Caesar shift 3): KHOOR", a: "hello" },
+    { q: "Angle between clock hands at 3:15 (degrees)", a: "7.5" },
+    { q: "What 5-letter word becomes shorter when you add two letters?", a: "short" },
+    { q: "Binary to decimal: 101101", a: "45" },
+    { q: "Boat full of people, yet no one onboard. Why?", a: "all married" },
+    { q: "Only number spelled with same number of letters as its value", a: "four" },
+    { q: "Beginning of eternity, end of time and space, start of every end", a: "e" }
 ];
 
 function loadPuzzle() {
-    document.getElementById("container").innerHTML = `
-        <h2>Puzzle ${step + 1}</h2>
-        <pre>${puzzles[step].q}</pre>
-        <input id="answer" autocomplete="off">
-        <br>
-        <button onclick="check()">Submit</button>
-    `;
+    document.getElementById("title").innerText = `Puzzle ${step + 1}`;
+    document.getElementById("puzzle").innerText = puzzles[step].q;
+    document.getElementById("answer").value = "";
 }
 
 function check() {
     const input = document.getElementById("answer").value.trim().toLowerCase();
     if (input === puzzles[step].a) {
         step++;
-        step === puzzles.length ? playVideo() : loadPuzzle();
+        step === puzzles.length ? rickRoll() : loadPuzzle();
     } else {
-        alert("Wrong.");
+        alert("Wrong. Think harder.");
     }
 }
 
-function playVideo() {
+function rickRoll() {
     document.getElementById("container").innerHTML = `
-        <h2>You finished.</h2>
-        <video id="vid" controls autoplay playsinline>
+        <h2>You solved everything.</h2>
+        <p>There is only one reward.</p>
+        <video id="finalVideo" autoplay>
             <source src="video.mp4" type="video/mp4">
         </video>
     `;
 
-    const vid = document.getElementById("vid");
-    vid.onended = showMystery;
-
-    // fallback safety
-    setTimeout(showMystery, 25000);
+    const video = document.getElementById("finalVideo");
+    video.addEventListener("ended", showMystery);
 }
 
 function showMystery() {
     document.getElementById("container").innerHTML = `
-        <div class="mystery" onclick="secretEnding()">
-            <p>THIS WAS NEVER A GAME.</p>
-            <p>YOU WERE BEING TESTED.</p>
-            <p><u>CLICK IF YOU WANT THE TRUTH</u></p>
-        </div>
-    `;
-}
-
-function secretEnding() {
-    document.getElementById("container").innerHTML = `
-        <div class="secret">
-            <h2>SECRET ENDING UNLOCKED</h2>
-            <p>There is no end.</p>
-            <p>You are now part of the system.</p>
-            <p>Close the tab.</p>
+        <div class="mystery">
+            <p>YOU WERE NOT SUPPOSED TO REACH THIS.</p>
+            <p>THE QUESTIONS NEVER END.</p>
+            <p>LOOK CLOSER. LISTEN CAREFULLY.</p>
+            <p>THE ANSWER IS ALREADY INSIDE YOU.</p>
         </div>
     `;
 }
